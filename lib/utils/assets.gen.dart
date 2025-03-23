@@ -14,15 +14,134 @@ import 'package:flutter/services.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/airship.svg
+  SvgGenImage get airship => const SvgGenImage('assets/icons/airship.svg');
+
+  /// File path: assets/icons/alamat.svg
+  SvgGenImage get alamat => const SvgGenImage('assets/icons/alamat.svg');
+
+  /// File path: assets/icons/arrow-down.svg
+  SvgGenImage get arrowDown => const SvgGenImage('assets/icons/arrow-down.svg');
+
+  /// File path: assets/icons/arrow-right.svg
+  SvgGenImage get arrowRight =>
+      const SvgGenImage('assets/icons/arrow-right.svg');
+
+  /// File path: assets/icons/arrow.svg
+  SvgGenImage get arrow => const SvgGenImage('assets/icons/arrow.svg');
+
   /// File path: assets/icons/back.svg
   SvgGenImage get back => const SvgGenImage('assets/icons/back.svg');
+
+  /// File path: assets/icons/bell.svg
+  SvgGenImage get bell => const SvgGenImage('assets/icons/bell.svg');
+
+  /// File path: assets/icons/calendar.svg
+  SvgGenImage get calendar => const SvgGenImage('assets/icons/calendar.svg');
+
+  /// File path: assets/icons/calendar2.svg
+  SvgGenImage get calendar2 => const SvgGenImage('assets/icons/calendar2.svg');
+
+  /// File path: assets/icons/call.svg
+  SvgGenImage get call => const SvgGenImage('assets/icons/call.svg');
+
+  /// File path: assets/icons/changePassword.svg
+  SvgGenImage get changePassword =>
+      const SvgGenImage('assets/icons/changePassword.svg');
+
+  /// File path: assets/icons/discount.svg
+  SvgGenImage get discount => const SvgGenImage('assets/icons/discount.svg');
+
+  /// File path: assets/icons/download.svg
+  SvgGenImage get download => const SvgGenImage('assets/icons/download.svg');
+
+  /// File path: assets/icons/editProfile.svg
+  SvgGenImage get editProfile =>
+      const SvgGenImage('assets/icons/editProfile.svg');
+
+  /// File path: assets/icons/editSolid.svg
+  SvgGenImage get editSolid => const SvgGenImage('assets/icons/editSolid.svg');
+
+  /// File path: assets/icons/filter.svg
+  SvgGenImage get filter => const SvgGenImage('assets/icons/filter.svg');
+
+  /// File path: assets/icons/helpdesk.svg
+  SvgGenImage get helpdesk => const SvgGenImage('assets/icons/helpdesk.svg');
+
+  /// File path: assets/icons/history.svg
+  SvgGenImage get history => const SvgGenImage('assets/icons/history.svg');
+
+  /// File path: assets/icons/location.svg
+  SvgGenImage get location => const SvgGenImage('assets/icons/location.svg');
+
+  /// File path: assets/icons/logout.svg
+  SvgGenImage get logout => const SvgGenImage('assets/icons/logout.svg');
+
+  /// File path: assets/icons/ordercancel.svg
+  SvgGenImage get ordercancel =>
+      const SvgGenImage('assets/icons/ordercancel.svg');
+
+  /// File path: assets/icons/orderdone.svg
+  SvgGenImage get orderdone => const SvgGenImage('assets/icons/orderdone.svg');
 
   /// File path: assets/icons/photo-search.svg
   SvgGenImage get photoSearch =>
       const SvgGenImage('assets/icons/photo-search.svg');
 
+  /// File path: assets/icons/privacy.svg
+  SvgGenImage get privacy => const SvgGenImage('assets/icons/privacy.svg');
+
+  /// File path: assets/icons/qna.svg
+  SvgGenImage get qna => const SvgGenImage('assets/icons/qna.svg');
+
+  /// File path: assets/icons/satelite.svg
+  SvgGenImage get satelite => const SvgGenImage('assets/icons/satelite.svg');
+
+  /// File path: assets/icons/setting.svg
+  SvgGenImage get setting => const SvgGenImage('assets/icons/setting.svg');
+
+  /// File path: assets/icons/speedFill.svg
+  SvgGenImage get speedFill => const SvgGenImage('assets/icons/speedFill.svg');
+
+  /// File path: assets/icons/stars.svg
+  SvgGenImage get stars => const SvgGenImage('assets/icons/stars.svg');
+
+  /// File path: assets/icons/statistik.svg
+  SvgGenImage get statistik => const SvgGenImage('assets/icons/statistik.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [back, photoSearch];
+  List<SvgGenImage> get values => [
+        airship,
+        alamat,
+        arrowDown,
+        arrowRight,
+        arrow,
+        back,
+        bell,
+        calendar,
+        calendar2,
+        call,
+        changePassword,
+        discount,
+        download,
+        editProfile,
+        editSolid,
+        filter,
+        helpdesk,
+        history,
+        location,
+        logout,
+        ordercancel,
+        orderdone,
+        photoSearch,
+        privacy,
+        qna,
+        satelite,
+        setting,
+        speedFill,
+        stars,
+        statistik
+      ];
 }
 
 class $AssetsImagesGen {
