@@ -13,8 +13,7 @@ dependencies:
   dartz: ^0.10.1
   device_info_plus: ^11.2.1
   dio: ^5.4.2+1
-  #firebase_core: ^3.10.0
-  #firebase_messaging: ^15.2.0
+  fl_chart: 0.68.0
   flutter:
     sdk: flutter
   flutter_animate: ^4.5.0

@@ -1,3 +1,5 @@
+import 'package:finals_fe/features/service/pages/service_detail_page.dart';
+import 'package:finals_fe/features/service/pages/service_map_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:finals_fe/core/provider/user_manager_provider.dart';
@@ -49,6 +51,29 @@ Raw<GoRouter> router(RouterRef ref) {
         path: '/register',
         name: RouteName.register,
         builder: (context, state) => const RegistrationPage(),
+      ),
+      GoRoute(
+        path: '/service-detail',
+        name: RouteName.serviceDetail,
+        builder: (context, state) => const ServiceDetailPage(),
+      ),
+      GoRoute(
+        path: '/service-map',
+        name: RouteName.serviceMap,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final latitude = extra['latitude'] as double;
+          final longitude = extra['longitude'] as double;
+          final snKit = extra['snKit'] as String;
+          final mNodelinkId = extra['mNodelinkId'] as int;
+
+          return ServiceMapPage(
+            initialLatitude: latitude,
+            initialLongitude: longitude,
+            snKit: snKit,
+            mNodelinkId: mNodelinkId,
+          );
+        },
       ),
     ],
   );
