@@ -1,6 +1,3 @@
-import 'package:finals_fe/extensions/build_context.ext.dart';
-
-import 'package:finals_fe/features/order/widgets/download_file_widget.dart';
 import 'package:finals_fe/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -404,15 +401,6 @@ class _ResumeOrderPageState extends ConsumerState<OrderDetailWidget> {
             ),
           ],
         ),
-        const Gap(30),
-        GestureDetector(
-          onTap: () async {},
-          child: DownloadFileWidget(
-            text: "Unduh Dokumen Pemesanan",
-            width: context.deviceWidth * 1,
-          ),
-        ),
-        const Gap(30),
       ],
     );
   }
