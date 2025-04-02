@@ -2,6 +2,7 @@ import 'package:finals_fe/features/home/widgets/header_home_widget.dart';
 import 'package:finals_fe/features/home/widgets/home_products.dart';
 import 'package:finals_fe/features/home/widgets/home_widget.dart';
 import 'package:finals_fe/features/home/widgets/see_all_menu_widget.dart';
+import 'package:finals_fe/features/main/controllers/selected_index_provider.dart';
 import 'package:finals_fe/utils/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -40,7 +41,9 @@ class HomePage extends HookConsumerWidget {
             SeeAllMenu(
               title: 'Layanan Saya',
               icon: Assets.icons.satelite.path,
-              onTap: () {},
+              onTap: () {
+                ref.read(selectedIndexNavBar.notifier).update((state) => 2);
+              },
             ),
             const Gap(32),
             HomeWidget(tabController: tabController),
@@ -48,7 +51,9 @@ class HomePage extends HookConsumerWidget {
             SeeAllMenu(
               title: 'Produk',
               icon: Assets.icons.airship.path,
-              onTap: () {},
+              onTap: () {
+                ref.read(selectedIndexNavBar.notifier).update((state) => 1);
+              },
             ),
             const Gap(16),
             SizedBox(

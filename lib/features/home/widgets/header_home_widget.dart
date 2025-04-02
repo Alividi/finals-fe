@@ -6,7 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class HeaderHome extends StatelessWidget {
   final VoidCallback onTap;
-  const HeaderHome({super.key, required this.onTap});
+  final String? name;
+  const HeaderHome({super.key, required this.onTap, this.name = 'User'});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class HeaderHome extends StatelessWidget {
               ),
             ),
             Text(
-              'User!',
+              '$name!',
               style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,

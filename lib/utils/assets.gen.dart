@@ -177,8 +177,11 @@ class $AssetsNavbarGen {
   /// File path: assets/navbar/site.svg
   SvgGenImage get site => const SvgGenImage('assets/navbar/site.svg');
 
+  /// File path: assets/navbar/ticket.svg
+  SvgGenImage get ticket => const SvgGenImage('assets/navbar/ticket.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [home, order, product, setting, site];
+  List<SvgGenImage> get values => [home, order, product, setting, site, ticket];
 }
 
 class Assets {

@@ -1,7 +1,11 @@
+import 'package:finals_fe/admin/main/pages/admin_main_page.dart';
+import 'package:finals_fe/admin/ticket/pages/admin_ticket_detail_page.dart';
 import 'package:finals_fe/features/order/pages/order_detail_page.dart';
 import 'package:finals_fe/features/product/pages/product_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_map_page.dart';
+import 'package:finals_fe/technician/main/pages/technician_main_page.dart';
+import 'package:finals_fe/technician/ticket/pages/technician_ticket_detail_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:finals_fe/core/provider/user_manager_provider.dart';
@@ -34,8 +38,9 @@ Raw<GoRouter> router(RouterRef ref) {
           return RouteName.splashscreen;
         },
       ),
+      //Customer Routes
       GoRoute(
-        path: '/',
+        path: '/main',
         name: RouteName.main,
         builder: (context, state) => const MainPage(id: 0),
       ),
@@ -86,6 +91,28 @@ Raw<GoRouter> router(RouterRef ref) {
         path: '/order-detail',
         name: RouteName.orderDetail,
         builder: (context, state) => const OrderDetailPage(),
+      ),
+      //Admin Routes
+      GoRoute(
+        path: '/admin-main',
+        name: RouteName.adminMain,
+        builder: (context, state) => const AdminMainPage(id: 0),
+      ),
+      GoRoute(
+        path: '/admin-ticket-detail',
+        name: RouteName.adminTicketDetail,
+        builder: (context, state) => const AdminTicketDetailPage(),
+      ),
+      //Technician Routes
+      GoRoute(
+        path: '/technician-main',
+        name: RouteName.technicianMain,
+        builder: (context, state) => const TechnicianMainPage(id: 0),
+      ),
+      GoRoute(
+        path: '/technician-ticket-detail',
+        name: RouteName.technicianTicketDetail,
+        builder: (context, state) => const TechnicianTicketDetailPage(),
       ),
     ],
   );
