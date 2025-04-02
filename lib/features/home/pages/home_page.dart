@@ -2,7 +2,6 @@ import 'package:finals_fe/features/home/widgets/header_home_widget.dart';
 import 'package:finals_fe/features/home/widgets/home_products.dart';
 import 'package:finals_fe/features/home/widgets/home_widget.dart';
 import 'package:finals_fe/features/home/widgets/see_all_menu_widget.dart';
-import 'package:finals_fe/features/home/widgets/service_product_select.dart';
 import 'package:finals_fe/utils/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -43,22 +42,8 @@ class HomePage extends HookConsumerWidget {
               icon: Assets.icons.satelite.path,
               onTap: () {},
             ),
-            const Gap(16),
-            SizedBox(
-              height: 50,
-              child: CustomScrollView(
-                scrollDirection: Axis.horizontal,
-                slivers: [
-                  serviceProductSelect(
-                    product: ['SBS', 'Stars', 'Broadcast'],
-                    selectedProduct: 'SBS',
-                    onTap: (value) {},
-                  ),
-                ],
-              ),
-            ),
-            const Gap(16),
-            HomeWidget(tabController: tabController, type: 'sbs'),
+            const Gap(32),
+            HomeWidget(tabController: tabController),
             const Gap(24),
             SeeAllMenu(
               title: 'Produk',

@@ -19,10 +19,11 @@ class AppColor {
   static const Color darkerBlueBackground = Color(0xFF181623);
   static const Color darkBackground = Color(0xFF171717);
   static const Color darkPurple = Color(0xFF6F6B80);
-  static const Color lightGrey = Color(0xFF12131C);
+  static const Color lightGrey = Color(0xFFADADAD);
   static const Color blueBackground = Color(0xFF242134);
   static const Color purple = Color(0xFF5A3AB6);
   static const Color lightTeal = Color(0xFF6CE6D9);
+  static const Color grey = Color(0xFF545559);
 
   // Gradient Colors
   static const List<Color> blueGradient = [Color(0xFF06E5FE), Color(0xFF1202F9)];

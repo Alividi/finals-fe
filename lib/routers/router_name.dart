@@ -6,4 +6,5 @@ class RouteName {
   static const String register = '/register';
   static const String serviceDetail = '/service-detail';
   static const String serviceMap = '/service-map';
+  static const String productDetail = '/product-detail';
 }

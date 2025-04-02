@@ -1,3 +1,5 @@
+import 'package:finals_fe/helpers/widgets/dialogs/confirmation_dialog.dart';
+import 'package:finals_fe/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -53,7 +55,20 @@ class SettingPage extends ConsumerWidget {
               isLogout: true,
               title: 'Keluar',
               icon: Assets.icons.logout.path,
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => ConfirmationDialog(
+                    title: 'Apakah Anda yakin ingin keluar?',
+                    confirmText: 'Ya',
+                    cancelText: 'Tidak',
+                    onConfirm: () {},
+                    onCancel: () {},
+                    borderColor: AppColor.lightRed,
+                    iconPath: Assets.icons.logout.path,
+                  ),
+                );
+              },
             ),
           ],
         ),

@@ -7,11 +7,9 @@ class HomeWidget extends StatelessWidget {
   const HomeWidget({
     super.key,
     required this.tabController,
-    required this.type,
   });
 
   final TabController tabController;
-  final String type;
 
   @override
   Widget build(BuildContext context) {

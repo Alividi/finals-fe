@@ -2,7 +2,7 @@ import 'package:finals_fe/extensions/build_context.ext.dart';
 import 'package:finals_fe/features/service/widgets/detail_customer_for_services_widget.dart';
 
 import 'package:finals_fe/features/service/widgets/service_statistic_widget.dart';
-import 'package:finals_fe/helpers/widgets/appbar/custom_app_bar_detail_product.dart';
+import 'package:finals_fe/helpers/widgets/appbar/custom_app_bar_detail_service.dart';
 import 'package:finals_fe/routers/router_name.dart';
 import 'package:finals_fe/utils/app_color.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,7 @@ class _ServiceDetailPageState extends ConsumerState<ServiceDetailPage>
   Widget build(BuildContext context) {
     final selectedInterval = useState('15 Menit');
     return Scaffold(
-      appBar: CustomAppBarDetailProduct(
+      appBar: CustomAppBarDetailService(
         title: 'Nama Layanan',
         onBack: () {
           context.pop();

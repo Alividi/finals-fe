@@ -1,3 +1,4 @@
+import 'package:finals_fe/features/product/pages/product_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_map_page.dart';
 import 'package:go_router/go_router.dart';
@@ -74,6 +75,11 @@ Raw<GoRouter> router(RouterRef ref) {
             mNodelinkId: mNodelinkId,
           );
         },
+      ),
+      GoRoute(
+        path: '/product-detail',
+        name: RouteName.productDetail,
+        builder: (context, state) => const ProductDetailPage(),
       ),
     ],
   );

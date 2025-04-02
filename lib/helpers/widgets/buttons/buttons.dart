@@ -17,6 +17,7 @@ class Button extends StatelessWidget {
     this.width = double.infinity,
     this.height = 48.0,
     this.borderRadius = 25.0,
+    this.borderColor,
     this.icon,
     this.iconRight,
     this.disabled = false,
@@ -30,11 +31,12 @@ class Button extends StatelessWidget {
     required this.onPressed,
     required this.label,
     this.style = ButtonStyle.outlined,
-    this.color = const Color(0xFF3399FE),
+    this.color = Colors.transparent,
     this.textColor = Colors.white,
     this.width = double.infinity,
     this.height = 48.0,
     this.borderRadius = 25.0,
+    this.borderColor,
     this.icon,
     this.iconRight,
     this.disabled = false,
@@ -51,6 +53,7 @@ class Button extends StatelessWidget {
   final double width;
   final double height;
   final double borderRadius;
+  final Color? borderColor;
   final Widget? icon;
   final Widget? iconRight;
   final bool disabled;
@@ -74,9 +77,9 @@ class Button extends StatelessWidget {
                   borderRadius: BorderRadius.circular(borderRadius),
                 ),
               ).copyWith(
-                backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
+                backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.disabled)) {
                       return AppColor.darkBlue;
                     }
                     return color;
@@ -116,7 +119,7 @@ class Button extends StatelessWidget {
                 shadowColor: Colors.transparent,
                 elevation: elevation,
                 backgroundColor: disabled ? AppColor.darkBlue : color,
-                side: const BorderSide(color: Color(0xFFFD6464)),
+                side: BorderSide(color: borderColor ?? color),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(borderRadius),
                 ),
