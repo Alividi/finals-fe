@@ -27,6 +27,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Container(
+                width: 55,
+                height: 55,
                 decoration: BoxDecoration(
                   color: AppColor.blueBackground,
                   borderRadius: BorderRadius.circular(50),

@@ -1,3 +1,4 @@
+import 'package:finals_fe/features/order/pages/order_detail_page.dart';
 import 'package:finals_fe/features/product/pages/product_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_map_page.dart';
@@ -80,6 +81,11 @@ Raw<GoRouter> router(RouterRef ref) {
         path: '/product-detail',
         name: RouteName.productDetail,
         builder: (context, state) => const ProductDetailPage(),
+      ),
+      GoRoute(
+        path: '/order-detail',
+        name: RouteName.orderDetail,
+        builder: (context, state) => const OrderDetailPage(),
       ),
     ],
   );
