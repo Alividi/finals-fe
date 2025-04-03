@@ -2,9 +2,11 @@ import 'package:finals_fe/admin/home/widgets/home_ticket_card.dart';
 import 'package:finals_fe/admin/home/widgets/home_title_dropdown_widget.dart';
 import 'package:finals_fe/admin/home/widgets/summary_ticket_widget.dart';
 import 'package:finals_fe/features/home/widgets/header_home_widget.dart';
+import 'package:finals_fe/routers/router_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AdminHomePage extends HookConsumerWidget {
@@ -28,6 +30,7 @@ class AdminHomePage extends HookConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               HeaderHome(
+                name: 'Admin',
                 onTap: () {},
               ),
               const Gap(20),
@@ -46,7 +49,11 @@ class AdminHomePage extends HookConsumerWidget {
                   shrinkWrap: true,
                   itemCount: 10,
                   itemBuilder: (context, index) {
-                    return const HomeTicketCard();
+                    return HomeTicketCard(
+                      onTap: () {
+                        context.pushNamed(RouteName.adminTicketDetail);
+                      },
+                    );
                   },
                 ),
               ),

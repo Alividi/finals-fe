@@ -12,7 +12,9 @@ class RouteName {
   //admin
   static const String adminMain = '/admin-main';
   static const String adminTicketDetail = '/admin-ticket-detail';
+  static const String ba = '/ba';
   //technician
   static const String technicianMain = '/technician-main';
   static const String technicianTicketDetail = '/technician-ticket-detail';
+  static const String baForm = '/ba-form';
 }

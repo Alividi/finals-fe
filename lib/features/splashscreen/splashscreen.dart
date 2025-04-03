@@ -17,7 +17,7 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      context.go(RouteName.adminMain);
+      context.go(RouteName.technicianMain);
     });
   }
 

@@ -1,4 +1,3 @@
-import 'package:finals_fe/extensions/build_context.ext.dart';
 import 'package:finals_fe/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -15,7 +14,6 @@ class HomeTicketCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap ?? () {},
       child: Container(
-        height: context.deviceHeight * 0.1,
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(

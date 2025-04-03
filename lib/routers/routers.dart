@@ -1,9 +1,11 @@
+import 'package:finals_fe/admin/ba/pages/ba_page.dart';
 import 'package:finals_fe/admin/main/pages/admin_main_page.dart';
 import 'package:finals_fe/admin/ticket/pages/admin_ticket_detail_page.dart';
 import 'package:finals_fe/features/order/pages/order_detail_page.dart';
 import 'package:finals_fe/features/product/pages/product_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_map_page.dart';
+import 'package:finals_fe/technician/ba/pages/ba_form_page.dart';
 import 'package:finals_fe/technician/main/pages/technician_main_page.dart';
 import 'package:finals_fe/technician/ticket/pages/technician_ticket_detail_page.dart';
 import 'package:go_router/go_router.dart';
@@ -103,6 +105,11 @@ Raw<GoRouter> router(RouterRef ref) {
         name: RouteName.adminTicketDetail,
         builder: (context, state) => const AdminTicketDetailPage(),
       ),
+      GoRoute(
+        path: '/ba',
+        name: RouteName.ba,
+        builder: (context, state) => const BaPage(),
+      ),
       //Technician Routes
       GoRoute(
         path: '/technician-main',
@@ -113,6 +120,11 @@ Raw<GoRouter> router(RouterRef ref) {
         path: '/technician-ticket-detail',
         name: RouteName.technicianTicketDetail,
         builder: (context, state) => const TechnicianTicketDetailPage(),
+      ),
+      GoRoute(
+        path: '/ba-form',
+        name: RouteName.baForm,
+        builder: (context, state) => const BaFormPage(),
       ),
     ],
   );
