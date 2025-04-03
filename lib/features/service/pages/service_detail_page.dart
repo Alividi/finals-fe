@@ -3,6 +3,7 @@ import 'package:finals_fe/features/service/widgets/detail_customer_for_services_
 
 import 'package:finals_fe/features/service/widgets/service_statistic_widget.dart';
 import 'package:finals_fe/helpers/widgets/appbar/custom_app_bar_detail_service.dart';
+import 'package:finals_fe/helpers/widgets/buttons/buttons.dart';
 import 'package:finals_fe/routers/router_name.dart';
 import 'package:finals_fe/utils/app_color.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class _ServiceDetailPageState extends ConsumerState<ServiceDetailPage>
   @override
   Widget build(BuildContext context) {
     final selectedInterval = useState('15 Menit');
+    final isDisrupt = useState(true);
     return Scaffold(
       appBar: CustomAppBarDetailService(
         title: 'Nama Layanan',
@@ -87,7 +89,7 @@ class _ServiceDetailPageState extends ConsumerState<ServiceDetailPage>
                   ),
                 ],
               ),
-              const Gap(28),
+              const Gap(20),
               Container(
                 width: double.infinity,
                 clipBehavior: Clip.antiAlias,
@@ -181,7 +183,59 @@ class _ServiceDetailPageState extends ConsumerState<ServiceDetailPage>
                   ),
                 ),
               ),
-              const Gap(28),
+              if (isDisrupt.value) ...[
+                const Gap(20),
+                Container(
+                  width: double.infinity,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFF242134),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.08),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.warning,
+                              size: 16,
+                              color: Color(0xFFFD6464),
+                            ),
+                            const Gap(8),
+                            Expanded(
+                              child: Text(
+                                'Layanan Anda sedang mengalami gangguan',
+                                style: TextStyle(
+                                  color: const Color(0xFFFD6464),
+                                  fontSize: 12,
+                                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Gap(20),
+                        Button.filled(
+                          onPressed: () {
+                            context.pushNamed(RouteName.troubleshoot);
+                          },
+                          label: 'Lakukan Troubleshoot',
+                          color: AppColor.red,
+                          height: 32,
+                          fontSize: 12,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+              const Gap(20),
               SizedBox(
                 height: 200,
                 child: ClipRRect(

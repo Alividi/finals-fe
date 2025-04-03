@@ -9,6 +9,7 @@ class RouteName {
   static const String serviceMap = '/service-map';
   static const String productDetail = '/product-detail';
   static const String orderDetail = '/order-detail';
+  static const String troubleshoot = '/troubleshoot';
   //admin
   static const String adminMain = '/admin-main';
   static const String adminTicketDetail = '/admin-ticket-detail';

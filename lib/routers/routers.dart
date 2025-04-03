@@ -5,6 +5,7 @@ import 'package:finals_fe/features/order/pages/order_detail_page.dart';
 import 'package:finals_fe/features/product/pages/product_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_map_page.dart';
+import 'package:finals_fe/features/troubleshoot/pages/troubleshoot_page.dart';
 import 'package:finals_fe/technician/ba/pages/ba_form_page.dart';
 import 'package:finals_fe/technician/main/pages/technician_main_page.dart';
 import 'package:finals_fe/technician/ticket/pages/technician_ticket_detail_page.dart';
@@ -93,6 +94,11 @@ Raw<GoRouter> router(RouterRef ref) {
         path: '/order-detail',
         name: RouteName.orderDetail,
         builder: (context, state) => const OrderDetailPage(),
+      ),
+      GoRoute(
+        path: '/troubleshoot',
+        name: RouteName.troubleshoot,
+        builder: (context, state) => const TroubleshootPage(),
       ),
       //Admin Routes
       GoRoute(

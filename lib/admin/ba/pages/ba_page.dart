@@ -8,7 +8,9 @@ class BaPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: CustomAppBar(
-        onBack: () {},
+        onBack: () {
+          Navigator.pop(context);
+        },
         title: 'Berita Acara',
       ),
     );
