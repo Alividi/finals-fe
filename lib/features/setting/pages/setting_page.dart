@@ -1,8 +1,10 @@
 import 'package:finals_fe/helpers/widgets/dialogs/confirmation_dialog.dart';
+import 'package:finals_fe/routers/router_name.dart';
 import 'package:finals_fe/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -44,7 +46,9 @@ class SettingPage extends ConsumerWidget {
             SettingTile(
               title: 'Ubah Password',
               icon: Assets.icons.changePassword.path,
-              onTap: () {},
+              onTap: () {
+                context.pushNamed(RouteName.changePassword);
+              },
             ),
             SettingTile(
               title: 'Helpdesk',
