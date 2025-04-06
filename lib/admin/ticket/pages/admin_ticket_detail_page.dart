@@ -1,10 +1,12 @@
 import 'package:finals_fe/extensions/build_context.ext.dart';
 import 'package:finals_fe/helpers/widgets/appbar/custom_app_bar.dart';
 import 'package:finals_fe/helpers/widgets/buttons/buttons.dart';
+import 'package:finals_fe/routers/router_name.dart';
 import 'package:finals_fe/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -249,7 +251,11 @@ class AdminTicketDetailPage extends HookConsumerWidget {
                       ),
                     ),
                     const Gap(20),
-                    Button.filled(onPressed: () {}, label: 'Tugaskan')
+                    Button.filled(
+                        onPressed: () {
+                          context.pushNamed(RouteName.ba);
+                        },
+                        label: 'Tugaskan')
                   ],
                 ),
               ],
