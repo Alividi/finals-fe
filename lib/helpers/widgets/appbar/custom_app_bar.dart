@@ -5,10 +5,10 @@ import 'package:finals_fe/utils/assets.gen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-
+  final Widget? trailling;
   final VoidCallback? onBack;
 
-  const CustomAppBar({super.key, this.title, this.onBack});
+  const CustomAppBar({super.key, this.title, this.onBack, this.trailling});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +44,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             )
+          : null,
+      actions: trailling != null
+          ? [
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: trailling,
+              ),
+            ]
           : null,
     );
   }

@@ -10,6 +10,7 @@ class RouteName {
   static const String productDetail = '/product-detail';
   static const String orderDetail = '/order-detail';
   static const String troubleshoot = '/troubleshoot';
+  static const String notification = '/notification';
   //admin
   static const String adminMain = '/admin-main';
   static const String adminTicketDetail = '/admin-ticket-detail';

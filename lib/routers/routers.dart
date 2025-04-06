@@ -1,6 +1,7 @@
 import 'package:finals_fe/admin/ba/pages/ba_page.dart';
 import 'package:finals_fe/admin/main/pages/admin_main_page.dart';
 import 'package:finals_fe/admin/ticket/pages/admin_ticket_detail_page.dart';
+import 'package:finals_fe/features/notification/page/notification_page.dart';
 import 'package:finals_fe/features/order/pages/order_detail_page.dart';
 import 'package:finals_fe/features/product/pages/product_detail_page.dart';
 import 'package:finals_fe/features/service/pages/service_detail_page.dart';
@@ -99,6 +100,11 @@ Raw<GoRouter> router(RouterRef ref) {
         path: '/troubleshoot',
         name: RouteName.troubleshoot,
         builder: (context, state) => const TroubleshootPage(),
+      ),
+      GoRoute(
+        path: '/notification',
+        name: RouteName.notification,
+        builder: (context, state) => const NotificationPage(),
       ),
       //Admin Routes
       GoRoute(

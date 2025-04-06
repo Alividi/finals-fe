@@ -3,10 +3,12 @@ import 'package:finals_fe/features/home/widgets/home_products.dart';
 import 'package:finals_fe/features/home/widgets/home_widget.dart';
 import 'package:finals_fe/features/home/widgets/see_all_menu_widget.dart';
 import 'package:finals_fe/features/main/controllers/selected_index_provider.dart';
+import 'package:finals_fe/routers/router_name.dart';
 import 'package:finals_fe/utils/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomePage extends HookConsumerWidget {
@@ -21,7 +23,9 @@ class HomePage extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           children: [
             HeaderHome(
-              onTap: () {},
+              onTap: () {
+                context.pushNamed(RouteName.notification);
+              },
             ),
             const Gap(20),
             SeeAllMenu(
