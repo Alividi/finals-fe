@@ -1,5 +1,6 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:finals_fe/core/provider/shared_preference_provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'token_manager_provider.g.dart';

@@ -1,26 +1,32 @@
+import 'dart:developer';
+
+import 'package:finals_fe/core/controllers/auth_controller.dart';
+import 'package:finals_fe/core/controllers/fcm_token_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:finals_fe/extensions/build_context.ext.dart';
 import 'package:finals_fe/routers/router_name.dart';
-
 import '../../../helpers/widgets/buttons/buttons.dart';
 import '../../../helpers/widgets/textfield/custom_textfield.dart';
 import '../../../utils/assets.gen.dart';
+import 'package:finals_fe/core/domain/entities/auth_params.dart';
 
 final formkey = GlobalKey<FormState>();
 
-class LoginPage extends HookWidget {
+class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final username = useTextEditingController();
     final password = useTextEditingController();
     final isButtonEnabled = useState(false);
+    final isLoading = useState(false);
 
     useEffect(() {
       void updateButtonState() {
@@ -35,6 +41,31 @@ class LoginPage extends HookWidget {
         password.removeListener(updateButtonState);
       };
     }, [username, password]);
+
+    Future<void> handleLogin() async {
+      if (!formkey.currentState!.validate()) return;
+
+      isLoading.value = true;
+
+      try {
+        final fcmToken = await ref.watch(saveFCMTokenProvider.future);
+        log('FCMTOKEN login : $fcmToken');
+
+        final params = LoginParams(
+          input: username.text,
+          password: password.text,
+          fcmToken: fcmToken,
+        );
+
+        await ref.read(loginProvider(params).future);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      } finally {
+        isLoading.value = false;
+      }
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xFF0F1323),
@@ -128,9 +159,7 @@ class LoginPage extends HookWidget {
                           Align(
                             alignment: Alignment.centerRight,
                             child: GestureDetector(
-                              onTap: () {
-                                context.pushNamed(RouteName.forgotPassword);
-                              },
+                              onTap: () => context.pushNamed(RouteName.forgotPassword),
                               child: Text(
                                 'Lupa Password?',
                                 style: GoogleFonts.montserrat(
@@ -159,13 +188,9 @@ class LoginPage extends HookWidget {
                               borderRadius: 34,
                               height: 52,
                               color: Colors.transparent,
-                              disabled: !isButtonEnabled.value,
-                              onPressed: () {
-                                if (formkey.currentState!.validate()) {
-                                  context.pushReplacementNamed(RouteName.main);
-                                }
-                              },
-                              label: 'Masuk',
+                              disabled: !isButtonEnabled.value || isLoading.value,
+                              onPressed: handleLogin,
+                              label: isLoading.value ? 'Loading...' : 'Masuk',
                             ),
                           ),
                           const Gap(16),
@@ -181,9 +206,7 @@ class LoginPage extends HookWidget {
                               ),
                               const Gap(4),
                               GestureDetector(
-                                onTap: () {
-                                  context.pushNamed(RouteName.register);
-                                },
+                                onTap: () => context.pushNamed(RouteName.register),
                                 child: Text(
                                   'Daftar Akun',
                                   style: GoogleFonts.montserrat(

@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:finals_fe/core/data/auth_repository_impl.dart';
 import 'package:finals_fe/core/domain/entities/user_model.dart';
 import 'package:finals_fe/core/provider/shared_preference_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,3 +58,26 @@ class UserManager {
     return user != null;
   }
 }
+
+class UserRefresh {
+  final Ref ref;
+
+  UserRefresh(this.ref);
+
+  Future<void> refreshUser() async {
+    final authRepository = ref.read(authRepositoryProvider);
+    final userManager = await ref.read(userManagerProvider.future);
+
+    await userManager.removeUser();
+    final userResult = await authRepository.getUser();
+    userResult.fold(
+      (error) => log('Gagal mengambil current-user: $error'),
+      (user) async {
+        await userManager.saveUser(user);
+        ref.invalidate(getCurrentUserProvider);
+      },
+    );
+  }
+}
+
+final userRefreshProvider = Provider((ref) => UserRefresh(ref));

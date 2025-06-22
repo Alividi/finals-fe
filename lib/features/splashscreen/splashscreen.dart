@@ -1,3 +1,4 @@
+import 'package:finals_fe/core/provider/user_manager_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,8 +17,32 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      context.go(RouteName.adminMain);
+    Future.delayed(const Duration(seconds: 3), () async {
+      final userManager = await ref.read(userManagerProvider.future);
+      final hasUser = await userManager.hasUser();
+
+      if (hasUser) {
+        final user = await userManager.getUser();
+        final role = user?.role?.toLowerCase();
+
+        if (role == 'customer') {
+          if (!mounted) return;
+          context.go(RouteName.main);
+
+          return;
+        } else if (role == 'admin') {
+          if (!mounted) return;
+          context.go(RouteName.adminMain);
+          return;
+        } else if (role == 'teknisi') {
+          if (!mounted) return;
+          context.go(RouteName.technicianMain);
+          return;
+        }
+      }
+
+      if (!mounted) return;
+      context.go(RouteName.login);
     });
   }
 

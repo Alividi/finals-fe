@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "547326715175",
+    "project_id": "finals-8c97b",
+    "storage_bucket": "finals-8c97b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547326715175:android:a9c978d7ce53b843edf502",
+        "android_client_info": {
+          "package_name": "com.ipb.aen.finals.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_h--54bQ5y65MEk-rGZb2jV1peUK12H0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
