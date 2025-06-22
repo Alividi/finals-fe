@@ -29,7 +29,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final response = await httpClient.post(
         'login',
         data: {
-          "input": params.input,
+          "username": params.input,
           "password": params.password,
           "fcm_token": params.fcmToken,
         },

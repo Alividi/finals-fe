@@ -7,17 +7,25 @@ import '../../../utils/app_color.dart';
 import '../../../utils/assets.gen.dart';
 
 class NotificationCard extends StatelessWidget {
+  final bool isRead;
+  final String title;
+  final String description;
+  final String time;
+
   const NotificationCard({
     super.key,
+    required this.isRead,
+    required this.title,
+    required this.description,
+    required this.time,
   });
 
   @override
   Widget build(BuildContext context) {
-    const isRead = true;
     return Container(
       padding: const EdgeInsets.only(top: 5),
-      decoration: const BoxDecoration(
-        color: isRead ? Colors.transparent : Color(0xFF181624),
+      decoration: BoxDecoration(
+        color: isRead ? Colors.transparent : const Color(0xFF181624),
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -44,7 +52,7 @@ class NotificationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "title",
+                    title,
                     style: GoogleFonts.montserrat(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
@@ -55,7 +63,7 @@ class NotificationCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 30),
                     child: Text(
-                      "deskripsi",
+                      description,
                       style: GoogleFonts.montserrat(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
@@ -64,7 +72,7 @@ class NotificationCard extends StatelessWidget {
                   ),
                   const Gap(5),
                   Text(
-                    '1 jam yang lalu',
+                    time,
                     style: GoogleFonts.montserrat(
                       color: AppColor.disable,
                       fontSize: 10,

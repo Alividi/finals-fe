@@ -1,3 +1,9 @@
+import 'dart:developer';
+
+import 'package:finals_fe/core/controllers/auth_controller.dart';
+import 'package:finals_fe/core/controllers/fcm_token_provider.dart';
+import 'package:finals_fe/core/provider/user_manager_provider.dart';
+import 'package:finals_fe/features/main/controllers/selected_index_provider.dart';
 import 'package:finals_fe/helpers/widgets/dialogs/confirmation_dialog.dart';
 import 'package:finals_fe/routers/router_name.dart';
 import 'package:finals_fe/utils/app_color.dart';
@@ -66,8 +72,18 @@ class SettingPage extends ConsumerWidget {
                     title: 'Apakah Anda yakin ingin keluar?',
                     confirmText: 'Ya',
                     cancelText: 'Tidak',
-                    onConfirm: () {},
-                    onCancel: () {},
+                    onConfirm: () async {
+                      final userManager = await ref.read(userManagerProvider.future);
+                      final fcmToken = await ref.watch(saveFCMTokenProvider.future);
+                      log('FCMTOKEN logout : $fcmToken');
+                      final user = await userManager.getUser();
+                      final userId = user?.userId ?? 0;
+                      await ref.read(logoutProvider(fcmToken, userId).future);
+                      ref.read(selectedIndexNavBar.notifier).state = 0;
+                    },
+                    onCancel: () {
+                      context.pop();
+                    },
                     borderColor: AppColor.lightRed,
                     iconPath: Assets.icons.logout.path,
                   ),

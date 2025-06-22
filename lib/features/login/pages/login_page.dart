@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:finals_fe/core/controllers/auth_controller.dart';
 import 'package:finals_fe/core/controllers/fcm_token_provider.dart';
+import 'package:finals_fe/core/provider/user_manager_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -58,6 +59,24 @@ class LoginPage extends HookConsumerWidget {
         );
 
         await ref.read(loginProvider(params).future);
+        final userManager = await ref.read(userManagerProvider.future);
+        final hasUser = await userManager.hasUser();
+
+        if (hasUser) {
+          final user = await userManager.getUser();
+          final role = user?.role?.toLowerCase();
+
+          if (role == 'customer') {
+            context.go(RouteName.main);
+            return;
+          } else if (role == 'admin') {
+            context.go(RouteName.adminMain);
+            return;
+          } else if (role == 'teknisi') {
+            context.go(RouteName.technicianMain);
+            return;
+          }
+        }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.toString())),

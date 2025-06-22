@@ -1,8 +1,11 @@
+import 'package:finals_fe/core/domain/entities/user_model.dart';
+import 'package:finals_fe/core/provider/user_manager_provider.dart';
 import 'package:finals_fe/features/home/widgets/header_home_widget.dart';
 import 'package:finals_fe/features/home/widgets/home_products.dart';
 import 'package:finals_fe/features/home/widgets/home_widget.dart';
 import 'package:finals_fe/features/home/widgets/see_all_menu_widget.dart';
 import 'package:finals_fe/features/main/controllers/selected_index_provider.dart';
+import 'package:finals_fe/features/setting/controllers/user_controllers.dart';
 import 'package:finals_fe/routers/router_name.dart';
 import 'package:finals_fe/utils/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +19,38 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userState = useState<UserModel?>(null);
+    final isLoading = useState(true);
+
+    useEffect(() {
+      Future.microtask(() async {
+        final userManager = await ref.read(userManagerProvider.future);
+        final user = await userManager.getUser();
+        userState.value = user;
+        isLoading.value = false;
+      });
+      return null;
+    }, []);
+
     final tabController = useTabController(initialLength: 3);
+    final userStatusAsync = ref.watch(userStatusControllerProvider);
+
     return SafeArea(
       child: Scaffold(
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           children: [
-            HeaderHome(
-              onTap: () {
-                context.pushNamed(RouteName.notification);
-              },
-            ),
+            isLoading.value || userStatusAsync.isLoading
+                ? HeaderHome(onTap: () {}, name: '')
+                : userStatusAsync.hasError
+                    ? HeaderHome(onTap: () {}, name: userState.value?.username ?? '')
+                    : HeaderHome(
+                        onTap: () {
+                          context.pushNamed(RouteName.notification);
+                        },
+                        name: userState.value?.username ?? '',
+                        badgeCount: userStatusAsync.value?.notificationCount ?? 0,
+                      ),
             const Gap(20),
             SeeAllMenu(
               title: 'Promosi',

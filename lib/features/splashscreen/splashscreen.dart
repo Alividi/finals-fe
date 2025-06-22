@@ -28,7 +28,6 @@ class _SplashscreenState extends ConsumerState<Splashscreen> {
         if (role == 'customer') {
           if (!mounted) return;
           context.go(RouteName.main);
-
           return;
         } else if (role == 'admin') {
           if (!mounted) return;
