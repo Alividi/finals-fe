@@ -107,7 +107,7 @@ class TicketRepositoryImpl implements TicketRepository {
         },
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return const Right('Ticket created successfully');
       } else if (response.data?['message'] != null) {
         return Left(response.data['message']);

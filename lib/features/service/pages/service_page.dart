@@ -1,4 +1,7 @@
+import 'package:finals_fe/features/service/controllers/service_controllers.dart';
+import 'package:finals_fe/features/service/domain/entities/services_params.dart';
 import 'package:finals_fe/features/service/widgets/service_card_widget.dart';
+import 'package:finals_fe/helpers/format/text_format_helper.dart';
 import 'package:finals_fe/routers/router_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,13 +16,27 @@ class ServicePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedStatus = useState<String>('Semua');
+
+    int? activeParam;
+    switch (selectedStatus.value) {
+      case 'Online':
+        activeParam = 1;
+        break;
+      case 'Offline':
+        activeParam = 2;
+        break;
+      case 'Inactive':
+        activeParam = 0;
+        break;
+      default:
+        activeParam = null;
+    }
+    final params = useMemoized(() => ServicesParams(active: activeParam), [activeParam]);
+    final servicesAsyncValue = ref.watch(getServicesProvider(params));
+
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: 40,
-        ),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -86,21 +103,53 @@ class ServicePage extends HookConsumerWidget {
             ),
             const Gap(12),
             Expanded(
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ServiceCardWidget(
-                    nama: 'Static Data',
-                    alamat: 'Static Address',
-                    status: 'up',
-                    dataUsage: 0,
-                    aktifSejak: 'N/A',
-                    onTap: () {
-                      context.pushNamed(RouteName.serviceDetail);
+              child: servicesAsyncValue.when(
+                data: (services) {
+                  if (services.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'Tidak ada layanan',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    itemCount: services.length,
+                    itemBuilder: (context, index) {
+                      final service = services[index];
+                      final status = switch (service.active) {
+                        1 => 'up',
+                        2 => 'down',
+                        0 => 'inactive',
+                        _ => 'unknown',
+                      };
+                      final dataUsageMB = service.dataUsage ?? 0.0;
+                      final usageInGB = dataUsageMB / 1024;
+                      final alamat = service.addressLine ?? 'Unknown';
+
+                      return ServiceCardWidget(
+                        nama: service.namaService ?? 'Unknown',
+                        alamat: alamat,
+                        status: status,
+                        dataUsage: usageInGB,
+                        aktifSejak:
+                            formatToIndonesianDate(service.activationDate?.toIso8601String() ?? ''),
+                        onTap: () {
+                          context
+                              .pushNamed(RouteName.serviceDetail, extra: {'serviceId': service.id});
+                        },
+                        maxUsage: 10,
+                      );
                     },
-                    maxUsage: 0,
                   );
                 },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, _) => Center(
+                  child: Text(
+                    'Error: $error',
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ),
               ),
             ),
           ],

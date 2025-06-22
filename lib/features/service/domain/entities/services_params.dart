@@ -10,10 +10,18 @@ class TelemetryParams {
   final int serviceId;
   final int interval;
 
-  TelemetryParams({
-    required this.serviceId,
-    required this.interval,
-  });
+  const TelemetryParams({required this.serviceId, required this.interval});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TelemetryParams &&
+          runtimeType == other.runtimeType &&
+          serviceId == other.serviceId &&
+          interval == other.interval;
+
+  @override
+  int get hashCode => serviceId.hashCode ^ interval.hashCode;
 }
 
 class ChangeCoordinateParams {

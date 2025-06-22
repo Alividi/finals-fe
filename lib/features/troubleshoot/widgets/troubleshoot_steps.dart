@@ -54,6 +54,13 @@ class TroubleshootSteps extends StatelessWidget {
               child: Image.network(
                 imageUrl ?? 'https://picsum.photos/250',
                 fit: BoxFit.fitWidth,
+                errorBuilder: (context, error, stackTrace) => const Center(
+                  child: Icon(
+                    Icons.broken_image_rounded,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                ),
               ),
             ),
           ),

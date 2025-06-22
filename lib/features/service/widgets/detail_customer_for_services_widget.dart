@@ -1,12 +1,27 @@
+import 'package:finals_fe/features/service/domain/entities/service_detail_model.dart';
 import 'package:finals_fe/features/service/widgets/detail_service_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart'; // for formatting DateTime
 
 class DetailCustomerForServicesWidget extends StatelessWidget {
+  final ServiceDetailModel data;
+
   const DetailCustomerForServicesWidget({
     super.key,
+    required this.data,
   });
+
+  String formatDateTime(DateTime? dateTime) {
+    if (dateTime == null) return '-';
+    return DateFormat('dd/MM/yyyy HH:mm:ss').format(dateTime);
+  }
+
+  String formatActivationDate(DateTime? dateTime) {
+    if (dateTime == null) return '-';
+    return DateFormat('dd MMMM yyyy', 'id_ID').format(dateTime);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +40,7 @@ class DetailCustomerForServicesWidget extends StatelessWidget {
             ),
           ),
           Text(
-            '23/03/2025 14:30:45',
+            formatDateTime(DateTime.now()),
             style: TextStyle(
               color: const Color(0xFFFCFCFC),
               fontSize: 16,
@@ -34,49 +49,49 @@ class DetailCustomerForServicesWidget extends StatelessWidget {
             ),
           ),
           const Gap(24),
-          const DetailServiceCardWidget(
+          DetailServiceCardWidget(
             title: 'Customer',
-            value: 'Nama Customer',
+            value: data.customerName ?? '-',
           ),
           const Gap(10),
-          const DetailServiceCardWidget(
-            title: 'Up Time',
-            value: '0D 0H 0M 0S',
-          ),
-          const Gap(10),
-          const DetailServiceCardWidget(
+          // const DetailServiceCardWidget(
+          //   title: 'Up Time',
+          //   value: '0D 0H 0M 0S',
+          // ),
+          // const Gap(10),
+          DetailServiceCardWidget(
             title: 'SSID',
-            value: 'SSID',
+            value: data.ssid ?? '-',
           ),
           const Gap(10),
-          const DetailServiceCardWidget(
+          DetailServiceCardWidget(
             title: 'SERVICE LINE NUMBER',
-            value: 'SN-123456',
+            value: data.serviceLineNumber ?? '-',
           ),
           const Gap(10),
-          const DetailServiceCardWidget(
+          DetailServiceCardWidget(
             title: 'KIT SERIAL NUMBER',
-            value: 'KIT-123456',
+            value: data.kitSn ?? '-',
           ),
           const Gap(10),
-          const DetailServiceCardWidget(
+          DetailServiceCardWidget(
             title: 'IP KIT',
-            value: '1',
+            value: data.ipKit ?? '-',
           ),
           const Gap(10),
-          const DetailServiceCardWidget(
+          DetailServiceCardWidget(
             title: 'SERVICE ADDRESS',
-            value: 'Jl. Jalan',
+            value: data.addressLine ?? '-',
           ),
           const Gap(10),
-          const DetailServiceCardWidget(
+          DetailServiceCardWidget(
             title: 'Tanggal Aktivasi',
-            value: '01 Januari 2000',
+            value: formatActivationDate(data.activationDate),
           ),
           const Gap(10),
-          const DetailServiceCardWidget(
+          DetailServiceCardWidget(
             title: 'Perangkat',
-            value: 'Perangkat',
+            value: data.device ?? '-',
           ),
           const Gap(10),
         ],

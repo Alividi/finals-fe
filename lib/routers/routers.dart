@@ -12,6 +12,7 @@ import 'package:finals_fe/technician/ba/pages/ba_form_page.dart';
 import 'package:finals_fe/technician/main/pages/technician_main_page.dart';
 import 'package:finals_fe/technician/ticket/pages/technician_ticket_detail_page.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:finals_fe/core/provider/user_manager_provider.dart';
 import 'package:finals_fe/features/forgot_pw/pages/forgot_password_page.dart';
@@ -25,7 +26,7 @@ import 'router_name.dart';
 part 'routers.g.dart';
 
 @Riverpod(keepAlive: true)
-Raw<GoRouter> router(RouterRef ref) {
+Raw<GoRouter> router(Ref ref) {
   return GoRouter(
     initialLocation: RouteName.splashscreen,
     debugLogDiagnostics: false,
@@ -72,7 +73,13 @@ Raw<GoRouter> router(RouterRef ref) {
       GoRoute(
         path: '/service-detail',
         name: RouteName.serviceDetail,
-        builder: (context, state) => const ServiceDetailPage(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final serviceId = extra['serviceId'] as int;
+          return ServiceDetailPage(
+            serviceId: serviceId,
+          );
+        },
       ),
       GoRoute(
         path: '/service-map',
@@ -105,7 +112,15 @@ Raw<GoRouter> router(RouterRef ref) {
       GoRoute(
         path: '/troubleshoot',
         name: RouteName.troubleshoot,
-        builder: (context, state) => const TroubleshootPage(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final gangguanId = extra['gangguanId'] as int;
+          final serviceId = extra['serviceId'] as int;
+          return TroubleshootPage(
+            gangguanId: gangguanId,
+            serviceId: serviceId,
+          );
+        },
       ),
       GoRoute(
         path: '/notification',

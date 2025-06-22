@@ -5,6 +5,9 @@ import 'package:finals_fe/features/home/widgets/home_products.dart';
 import 'package:finals_fe/features/home/widgets/home_widget.dart';
 import 'package:finals_fe/features/home/widgets/see_all_menu_widget.dart';
 import 'package:finals_fe/features/main/controllers/selected_index_provider.dart';
+import 'package:finals_fe/features/service/controllers/service_controllers.dart';
+import 'package:finals_fe/features/service/domain/entities/services_model.dart';
+import 'package:finals_fe/features/service/domain/entities/services_params.dart';
 import 'package:finals_fe/features/setting/controllers/user_controllers.dart';
 import 'package:finals_fe/routers/router_name.dart';
 import 'package:finals_fe/utils/assets.gen.dart';
@@ -34,6 +37,9 @@ class HomePage extends HookConsumerWidget {
 
     final tabController = useTabController(initialLength: 3);
     final userStatusAsync = ref.watch(userStatusControllerProvider);
+    final params = useMemoized(() => ServicesParams());
+    final servicesFuture = useMemoized(() => ref.read(getServicesProvider(params).future));
+    final servicesSnapshot = useFuture(servicesFuture);
 
     return SafeArea(
       child: Scaffold(
@@ -74,7 +80,15 @@ class HomePage extends HookConsumerWidget {
               },
             ),
             const Gap(32),
-            HomeWidget(tabController: tabController),
+            HomeWidget(
+              tabController: tabController,
+              allService: _filterService(servicesSnapshot.data ?? [], null),
+              offlineService: _filterService(servicesSnapshot.data ?? [], 2),
+              onlineService: _filterService(servicesSnapshot.data ?? [], 1),
+              isLoading: servicesSnapshot.connectionState == ConnectionState.waiting,
+              hasError: servicesSnapshot.hasError,
+              error: servicesSnapshot.error?.toString(),
+            ),
             const Gap(24),
             SeeAllMenu(
               title: 'Produk',
@@ -106,4 +120,10 @@ class HomePage extends HookConsumerWidget {
       ),
     );
   }
+}
+
+ServicesModel? _filterService(List<ServicesModel> services, int? active) {
+  final filtered = active == null ? services : services.where((s) => s.active == active).toList();
+
+  return filtered.isNotEmpty ? filtered.first : null;
 }

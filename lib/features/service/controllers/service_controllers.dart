@@ -34,6 +34,7 @@ Future<List<TelemetryModel>> getServiceTelemetry(Ref ref, TelemetryParams params
 Future<String> changeCoordinate(Ref ref, ChangeCoordinateParams params) async {
   final repository = ref.watch(serviceRepositoryProvider);
   final response = await repository.changeCoordinate(params);
+  ref.invalidate(getServiceByIdProvider(params.serviceId));
   return response.fold((error) => throw Exception(error), (data) => data);
 }
 

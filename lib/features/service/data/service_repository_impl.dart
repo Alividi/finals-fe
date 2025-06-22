@@ -129,7 +129,7 @@ class ServiceRepositoryImpl implements ServiceRepository {
   Future<Either<String, String>> changeCoordinate(ChangeCoordinateParams params) async {
     try {
       final response = await httpClient.put(
-        'services/change-coordinate',
+        'services/change-coordinates',
         data: {
           'latitude': params.latitude,
           'longitude': params.longitude,

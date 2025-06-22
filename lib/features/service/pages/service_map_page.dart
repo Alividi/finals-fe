@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:finals_fe/extensions/build_context.ext.dart';
+import 'package:finals_fe/features/service/controllers/service_controllers.dart';
+import 'package:finals_fe/features/service/domain/entities/services_params.dart';
 import 'package:finals_fe/features/service/widgets/bottom_info_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -338,7 +340,26 @@ class _ServiceMapPageState extends ConsumerState<ServiceMapPage> {
                 latitude: latitude,
                 longitude: longitude,
                 snKit: widget.snKit,
-                onSimpan: () async {},
+                onSimpan: () async {
+                  final serviceId = widget.mNodelinkId;
+                  final params = ChangeCoordinateParams(
+                    serviceId: serviceId,
+                    latitude: latitude,
+                    longitude: longitude,
+                  );
+
+                  try {
+                    final result = await ref.read(changeCoordinateProvider(params).future);
+                    context.pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(result)),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(e.toString())),
+                    );
+                  }
+                },
               ),
             ),
           ],
