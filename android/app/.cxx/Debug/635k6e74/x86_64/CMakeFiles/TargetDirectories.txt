@@ -1,0 +1,2 @@
+/Users/aen/Documents/flutter/finals-fe/android/app/.cxx/Debug/635k6e74/x86_64/CMakeFiles/edit_cache.dir
+/Users/aen/Documents/flutter/finals-fe/android/app/.cxx/Debug/635k6e74/x86_64/CMakeFiles/rebuild_cache.dir
