@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:finals_fe/core/provider/dio_provider.dart';
+import 'package:finals_fe/features/setting/domain/entities/technicians_model.dart';
 import 'package:finals_fe/features/setting/domain/entities/user_status_model.dart';
 import 'package:finals_fe/features/setting/domain/repositories/user_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,6 +31,25 @@ class UserRepositoryImpl implements UserRepository {
         return Right(userProfile);
       } else {
         throw Exception('Gagal mendapatkan data user status');
+      }
+    } on DioException catch (e) {
+      final errorMessage = e.response?.data['message'] ?? e.message;
+      throw Exception(errorMessage);
+    }
+  }
+
+  @override
+  Future<Either<String, List<TechniciansModel>>> getTechnicians() async {
+    try {
+      final response = await httpclient.get(
+        'technicians',
+      );
+      if (response.statusCode == 200) {
+        final techniciansList =
+            (response.data['data'] as List).map((e) => TechniciansModel.fromJson(e)).toList();
+        return Right(techniciansList);
+      } else {
+        throw Exception('Gagal mendapatkan data teknisi');
       }
     } on DioException catch (e) {
       final errorMessage = e.response?.data['message'] ?? e.message;
