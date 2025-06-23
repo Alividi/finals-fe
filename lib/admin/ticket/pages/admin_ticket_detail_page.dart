@@ -306,7 +306,9 @@ class AdminTicketDetailPage extends HookConsumerWidget {
                       const Gap(20),
                       Button.filled(
                           onPressed: () {
-                            context.pushNamed(RouteName.baForm);
+                            context.pushNamed(RouteName.baForm, extra: {
+                              'ticketId': ticket.id,
+                            });
                           },
                           label: 'Isi Berita Acara'),
                     ],
@@ -314,7 +316,9 @@ class AdminTicketDetailPage extends HookConsumerWidget {
                       const Gap(20),
                       Button.filled(
                           onPressed: () {
-                            context.pushNamed(RouteName.ba);
+                            context.pushNamed(RouteName.ba, extra: {
+                              'ticketId': ticket.id,
+                            });
                           },
                           label: 'Lihat Berita Acara'),
                     ],

@@ -159,7 +159,13 @@ Raw<GoRouter> router(Ref ref) {
       GoRoute(
         path: '/ba',
         name: RouteName.ba,
-        builder: (context, state) => const BaPage(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final ticketId = extra['ticketId'] as int;
+          return BaPage(
+            baId: ticketId,
+          );
+        },
       ),
       //Technician Routes
       GoRoute(
@@ -175,7 +181,13 @@ Raw<GoRouter> router(Ref ref) {
       GoRoute(
         path: '/ba-form',
         name: RouteName.baForm,
-        builder: (context, state) => const BaFormPage(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final ticketId = extra['ticketId'] as int;
+          return BaFormPage(
+            ticketId: ticketId,
+          );
+        },
       ),
     ],
   );

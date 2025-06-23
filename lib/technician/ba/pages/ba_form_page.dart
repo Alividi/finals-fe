@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:finals_fe/admin/ba/controllers/ba_controllers.dart';
+import 'package:finals_fe/admin/ba/domain/entities/ba_params.dart';
 import 'package:finals_fe/helpers/widgets/appbar/custom_app_bar.dart';
 import 'package:finals_fe/helpers/widgets/buttons/buttons.dart';
 import 'package:finals_fe/utils/app_color.dart';
@@ -9,10 +13,13 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class BaFormPage extends HookConsumerWidget {
-  const BaFormPage({super.key});
+  final int ticketId;
+  const BaFormPage({super.key, required this.ticketId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final detailBaController = useTextEditingController();
+
     final imageDevice = useState<File?>(null);
     final imageSpeedtest = useState<File?>(null);
     final additionalImages = useState<List<File?>>([]);
@@ -122,6 +129,7 @@ class BaFormPage extends HookConsumerWidget {
                 const Gap(16),
                 TextField(
                   maxLines: 5,
+                  controller: detailBaController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -131,7 +139,70 @@ class BaFormPage extends HookConsumerWidget {
                   ),
                 ),
                 const Gap(24),
-                Button.filled(onPressed: () {}, label: 'Kirim Berita Acara')
+                Button.filled(
+                  disabled: imageDevice.value == null || imageSpeedtest.value == null,
+                  onPressed: () async {
+                    if (imageDevice.value == null || imageSpeedtest.value == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Gambar perangkat dan speedtest wajib diisi')),
+                      );
+                      return;
+                    }
+
+                    final biayaLainnya = <BiayaLainnya>[];
+
+                    for (int i = 0; i < additionalImages.value.length; i++) {
+                      final jenis = additionalCostControllers.value[i].text.trim();
+                      final jumlahStr = additionalCosts.value[i].text.trim();
+                      final lampiran = additionalImages.value[i];
+
+                      if (jenis.isEmpty || jumlahStr.isEmpty || lampiran == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Lengkapi biaya lainnya ke-${i + 1}')),
+                        );
+                        return;
+                      }
+
+                      final jumlah = int.tryParse(jumlahStr);
+                      if (jumlah == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Jumlah biaya ke-${i + 1} tidak valid')),
+                        );
+                        return;
+                      }
+
+                      biayaLainnya.add(BiayaLainnya(
+                        jenisBiaya: jenis,
+                        jumlah: jumlah,
+                        lampiran: lampiran,
+                      ));
+                    }
+
+                    final params = CreateBaParams(
+                      ticketId: ticketId,
+                      detailBa: detailBaController.text.trim(),
+                      gambarPerangkat: imageDevice.value!,
+                      gambarSpeedtest: imageSpeedtest.value!,
+                      biayaLainnya: biayaLainnya,
+                    );
+
+                    try {
+                      final result = await ref.read(createBaProvider(params).future);
+                      log('Create BA result: $result');
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Berita Acara berhasil dikirim')),
+                        );
+                        Navigator.pop(context);
+                      }
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Gagal mengirim BA: $e')),
+                      );
+                    }
+                  },
+                  label: 'Kirim Berita Acara',
+                )
               ],
             ),
           ),
