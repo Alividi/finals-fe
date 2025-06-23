@@ -44,4 +44,22 @@ class AppColor {
   static const List<Color> purpleYellow = [Color(0xFF8158F4), Color(0xFFDFBB77)];
   static const List<Color> gradientOrange = [Color(0xFFFEE049), Color(0xFFF8B35C)];
   static const List<Color> lightBlueGradient = [Color(0xFF94CADC), Color(0xFFD4E7ED)];
+
+  static Color getTicketStatusColor(String? status) {
+    const statusColors = {
+      'open': AppColor.darkBlue,
+      'in_progress': AppColor.lightPurple,
+      'closed': AppColor.green,
+    };
+    return statusColors[status] ?? AppColor.grey;
+  }
+
+  static Color getTicketStatusTextColor(String? status) {
+    const statusTextColors = {
+      'open': AppColor.white,
+      'in_progress': AppColor.white,
+      'closed': AppColor.white,
+    };
+    return statusTextColors[status] ?? AppColor.white;
+  }
 }

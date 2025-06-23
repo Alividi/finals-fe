@@ -6,7 +6,7 @@ import 'package:finals_fe/admin/ticket/domain/entities/tickets_params.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'ticket_controllees.g.dart';
+part 'ticket_controllers.g.dart';
 
 @riverpod
 Future<List<TicketsModel>> getTickets(Ref ref, TicketsParams params) async {
@@ -39,6 +39,9 @@ Future<String> createTicket(Ref ref, CreateTicketParams params) async {
 @riverpod
 Future<String> assignTicket(Ref ref, AssignTicketParams params) async {
   final repository = ref.watch(ticketRepositoryProvider);
+  ref.invalidate(getTicketsProvider);
+  ref.invalidate(getTicketSummaryProvider);
+  ref.invalidate(getTicketDetailProvider(params.ticketId));
   final assignTicket = await repository.assignTicket(params);
   return assignTicket.fold((error) => throw Exception(error), (data) => data);
 }

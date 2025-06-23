@@ -1,3 +1,5 @@
+import 'package:finals_fe/admin/ticket/domain/entities/tickets_model.dart';
+import 'package:finals_fe/helpers/format/text_format_helper.dart';
 import 'package:finals_fe/utils/app_color.dart';
 import 'package:finals_fe/utils/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -5,10 +7,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 class TicketCard extends StatelessWidget {
+  final TicketsModel ticket;
   final VoidCallback? onTap;
   const TicketCard({
     super.key,
     this.onTap,
+    required this.ticket,
   });
 
   @override
@@ -34,7 +38,7 @@ class TicketCard extends StatelessWidget {
                   width: 24,
                 ),
                 const Gap(12),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -46,7 +50,7 @@ class TicketCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'TK-00001',
+                      ticket.nomorTiket ?? '',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -66,20 +70,20 @@ class TicketCard extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: AppColor.green,
+                        color: AppColor.getTicketStatusColor(ticket.status),
                       ),
-                      child: const Text(
-                        'Selesai',
+                      child: Text(
+                        getTicketStatusColor(ticket.status),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: Colors.white,
+                          color: AppColor.getTicketStatusTextColor(ticket.status),
                         ),
                       ),
                     ),
                     const Gap(8),
-                    const Text(
-                      '10 April 2024',
+                    Text(
+                      formatToIndonesianDate(ticket.createdAt.toString()),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -99,8 +103,8 @@ class TicketCard extends StatelessWidget {
                 color: AppColor.lightGrey,
               ),
             ),
-            const Text(
-              'Nama Layanan',
+            Text(
+              ticket.namaService ?? '',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -108,26 +112,28 @@ class TicketCard extends StatelessWidget {
               ),
             ),
             const Gap(8),
-            const Text(
-              'Nama Pelanggan',
+            Text(
+              ticket.namaPerusahaan ?? '',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            const Gap(8),
-            const Text(
-              'Teknisi: John Doe',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
+            if (ticket.namaTeknisi != '') ...[
+              const Gap(8),
+              Text(
+                'Teknisi: ${ticket.namaTeknisi}',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
               ),
-            ),
+            ],
             const Gap(8),
-            const Text(
-              'Alamat lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            Text(
+              ticket.addressLine ?? '',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -142,7 +148,7 @@ class TicketCard extends StatelessWidget {
                 color: AppColor.darkBlue,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -154,7 +160,7 @@ class TicketCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Ganguan lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    ticket.namaGangguan ?? '',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,

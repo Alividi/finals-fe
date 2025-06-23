@@ -1,11 +1,15 @@
+import 'package:finals_fe/admin/ticket/domain/entities/tickets_model.dart';
+import 'package:finals_fe/helpers/format/text_format_helper.dart';
 import 'package:finals_fe/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class HomeTicketCard extends StatelessWidget {
+  final TicketsModel ticket;
   final VoidCallback? onTap;
   const HomeTicketCard({
     this.onTap,
+    required this.ticket,
     super.key,
   });
 
@@ -25,8 +29,8 @@ class HomeTicketCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Text(
-                  'TK-00001',
+                Text(
+                  ticket.nomorTiket ?? '',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -41,28 +45,30 @@ class HomeTicketCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: AppColor.green,
+                    color: AppColor.getTicketStatusColor(ticket.status),
                   ),
-                  child: const Text(
-                    'Selesai',
+                  child: Text(
+                    getTicketStatusColor(ticket.status),
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      color: AppColor.getTicketStatusTextColor(ticket.status),
                     ),
                   ),
                 )
               ],
             ),
-            const Gap(8),
-            const Text(
-              'Teknisi: John Doe',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
+            if (ticket.namaTeknisi != '') ...[
+              const Gap(8),
+              Text(
+                'Teknisi: ${ticket.namaTeknisi}',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),

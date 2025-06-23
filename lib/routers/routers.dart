@@ -36,10 +36,20 @@ Raw<GoRouter> router(Ref ref) {
         name: RouteName.splashscreen,
         builder: (context, state) => const Splashscreen(),
         redirect: (context, state) async {
-          final user = await ref.watch(userManagerProvider.future);
-          final auth = await user.hasUser();
-          if (auth == true) {
-            return RouteName.main;
+          final userManager = await ref.read(userManagerProvider.future);
+          final hasUser = await userManager.hasUser();
+
+          if (hasUser) {
+            final user = await userManager.getUser();
+            final role = user?.role?.toLowerCase();
+
+            if (role == 'customer') {
+              return RouteName.main;
+            } else if (role == 'admin') {
+              return RouteName.adminMain;
+            } else if (role == 'teknisi') {
+              return RouteName.technicianMain;
+            }
           }
           return RouteName.splashscreen;
         },
@@ -136,7 +146,15 @@ Raw<GoRouter> router(Ref ref) {
       GoRoute(
         path: '/admin-ticket-detail',
         name: RouteName.adminTicketDetail,
-        builder: (context, state) => const AdminTicketDetailPage(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final ticketId = extra['ticketId'] as int;
+          final type = extra['type'] as String;
+          return AdminTicketDetailPage(
+            ticketId: ticketId,
+            type: type,
+          );
+        },
       ),
       GoRoute(
         path: '/ba',

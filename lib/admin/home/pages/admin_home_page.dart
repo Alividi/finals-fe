@@ -1,10 +1,15 @@
 import 'package:finals_fe/admin/home/widgets/home_ticket_card.dart';
 import 'package:finals_fe/admin/home/widgets/home_title_dropdown_widget.dart';
 import 'package:finals_fe/admin/home/widgets/summary_ticket_widget.dart';
+import 'package:finals_fe/admin/ticket/controllers/ticket_controllers.dart';
+import 'package:finals_fe/admin/ticket/domain/entities/ticket_summary_model.dart';
+import 'package:finals_fe/admin/ticket/domain/entities/tickets_model.dart';
+import 'package:finals_fe/admin/ticket/domain/entities/tickets_params.dart';
 import 'package:finals_fe/core/domain/entities/user_model.dart';
 import 'package:finals_fe/core/provider/user_manager_provider.dart';
 import 'package:finals_fe/features/home/widgets/header_home_widget.dart';
 import 'package:finals_fe/features/setting/controllers/user_controllers.dart';
+import 'package:finals_fe/helpers/format/text_format_helper.dart';
 import 'package:finals_fe/routers/router_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -19,6 +24,10 @@ class AdminHomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userState = useState<UserModel?>(null);
     final isLoading = useState(true);
+    final currentMonth = DateTime.now().month;
+    final selectedMonth = useState<String>(monthsList[currentMonth - 1]);
+    final selectedStatus = useState<String>('Semua');
+    final summaryAsync = useState<AsyncValue<TicketSummaryModel>>(const AsyncLoading());
 
     useEffect(() {
       Future.microtask(() async {
@@ -29,15 +38,49 @@ class AdminHomePage extends HookConsumerWidget {
       });
       return null;
     }, []);
+
+    useEffect(() {
+      Future.microtask(() async {
+        summaryAsync.value = const AsyncLoading();
+        try {
+          final result = await ref.read(
+            getTicketSummaryProvider(
+              TicketSummaryParams(
+                month: selectedMonth.value != 'Semua' ? monthsMap[selectedMonth.value] : null,
+              ),
+            ).future,
+          );
+          summaryAsync.value = AsyncData(result);
+        } catch (e, st) {
+          summaryAsync.value = AsyncError(e, st);
+        }
+      });
+      return null;
+    }, [selectedMonth.value]);
+
+    final ticketsAsync = useState<AsyncValue<List<TicketsModel>>>(const AsyncLoading());
+
+    useEffect(() {
+      Future.microtask(() async {
+        ticketsAsync.value = const AsyncLoading();
+        try {
+          final result = await ref.read(
+            getTicketsProvider(
+              TicketsParams(
+                status: statusMap[selectedStatus.value],
+              ),
+            ).future,
+          );
+          ticketsAsync.value = AsyncData(result);
+        } catch (e, st) {
+          ticketsAsync.value = AsyncError(e, st);
+        }
+      });
+      return null;
+    }, [selectedStatus.value]);
+
     final userStatusAsync = ref.watch(userStatusControllerProvider);
-    final selectedMonth = useState<String>('April');
-    final selectedStatus = useState<String>('Semua');
-    final List<String> status = [
-      'Semua',
-      'Masuk',
-      'Proses',
-      'Selesai',
-    ];
+
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -47,37 +90,49 @@ class AdminHomePage extends HookConsumerWidget {
             children: [
               isLoading.value || userStatusAsync.isLoading
                   ? HeaderHome(onTap: () {}, name: '')
-                  : userStatusAsync.hasError
-                      ? HeaderHome(onTap: () {}, name: userState.value?.username ?? '')
-                      : HeaderHome(
-                          onTap: () {
-                            context.pushNamed(RouteName.notification);
-                          },
-                          name: userState.value?.username ?? '',
-                          badgeCount: userStatusAsync.value?.notificationCount ?? 0,
-                        ),
+                  : HeaderHome(
+                      onTap: () {
+                        context.pushNamed(RouteName.notification);
+                      },
+                      name: userState.value?.username ?? '',
+                      badgeCount: userStatusAsync.value?.notificationCount ?? 0,
+                    ),
               const Gap(20),
               SummaryTicketWidget(
                 selectedMonth: selectedMonth,
+                summaryAsync: summaryAsync.value,
               ),
               const Gap(20),
               HomeTitleDropdownWidget(
                 title: 'Tiket Hari ini',
                 selected: selectedStatus,
-                items: status,
+                items: const ['Semua', 'Masuk', 'Proses', 'Selesai'],
               ),
               const Gap(16),
               Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return HomeTicketCard(
-                      onTap: () {
-                        context.pushNamed(RouteName.adminTicketDetail);
+                child: ticketsAsync.value.when(
+                  data: (tickets) {
+                    if (tickets.isEmpty) {
+                      return const Center(child: Text('Tidak ada tiket.'));
+                    }
+                    return ListView.builder(
+                      itemCount: tickets.length,
+                      itemBuilder: (context, index) {
+                        final ticket = tickets[index];
+                        return HomeTicketCard(
+                          ticket: ticket,
+                          onTap: () {
+                            context.pushNamed(RouteName.adminTicketDetail, extra: {
+                              'ticketId': ticket.id,
+                              'type': 'admin',
+                            });
+                          },
+                        );
                       },
                     );
                   },
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (e, st) => Center(child: Text('Terjadi kesalahan: $e')),
                 ),
               ),
             ],

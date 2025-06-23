@@ -1,5 +1,5 @@
+import 'package:finals_fe/admin/ticket/pages/admin_ticket_page.dart';
 import 'package:finals_fe/technician/home/pages/technician_home_page.dart';
-import 'package:finals_fe/technician/ticket/pages/technician_ticket_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -18,7 +18,9 @@ class TechnicianMainPage extends HookConsumerWidget {
     int selectedIndex = ref.watch(selectedIndexNavBar);
     final List<Widget> selectedPage = <Widget>[
       const TechnicianHomePage(),
-      const TechnicianTicketPage(),
+      const AdminTicketPage(
+        type: 'teknisi',
+      ),
       const SettingPage(),
     ];
 

@@ -17,7 +17,9 @@ class AdminMainPage extends HookConsumerWidget {
     int selectedIndex = ref.watch(selectedIndexNavBar);
     final List<Widget> selectedPage = <Widget>[
       const AdminHomePage(),
-      const AdminTicketPage(),
+      const AdminTicketPage(
+        type: 'admin',
+      ),
       const SettingPage(),
     ];
 

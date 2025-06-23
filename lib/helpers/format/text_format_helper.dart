@@ -40,3 +40,49 @@ String formatToIndonesianDate(String isoString) {
 
   return '$day $month $year';
 }
+
+final statusMap = {
+  'Masuk': 'open',
+  'Proses': 'in_progress',
+  'Selesai': 'closed',
+  'Semua': null,
+};
+
+final List<String> monthsList = [
+  'Januari',
+  'Februari',
+  'Maret',
+  'April',
+  'Mei',
+  'Juni',
+  'Juli',
+  'Agustus',
+  'September',
+  'Oktober',
+  'November',
+  'Desember',
+];
+
+final monthsMap = {
+  'Januari': '1',
+  'Februari': '2',
+  'Maret': '3',
+  'April': '4',
+  'Mei': '5',
+  'Juni': '6',
+  'Juli': '7',
+  'Agustus': '8',
+  'September': '9',
+  'Oktober': '10',
+  'November': '11',
+  'Desember': '12',
+};
+
+String getTicketStatusColor(String? status) {
+  const statusName = {
+    'open': 'Masuk',
+    'in_progress': 'Proses',
+    'closed': 'Selesai',
+  };
+  return statusName[status] ?? 'Masuk';
+}

@@ -1,3 +1,4 @@
+import 'package:finals_fe/admin/ticket/domain/entities/tickets_model.dart';
 import 'package:finals_fe/admin/ticket/widgets/ticket_card.dart';
 import 'package:finals_fe/routers/router_name.dart';
 import 'package:finals_fe/utils/app_color.dart';
@@ -109,6 +110,7 @@ class TechnicianTicketPage extends HookConsumerWidget {
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   return TicketCard(
+                    ticket: TicketsModel(),
                     onTap: () {
                       context.pushNamed(RouteName.technicianTicketDetail);
                     },

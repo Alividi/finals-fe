@@ -16,6 +16,7 @@ abstract class TicketDetailModel with _$TicketDetailModel {
     @JsonKey(name: "status") String? status,
     @JsonKey(name: "nomor_tiket") String? nomorTiket,
     @JsonKey(name: "nama_service") String? namaService,
+    @JsonKey(name: "service_line_number") String? serviceLineNumber,
     @JsonKey(name: "ip_kit") String? ipKit,
     @JsonKey(name: "kit_sn") String? kitSn,
     @JsonKey(name: "ssid") String? ssid,

@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:finals_fe/admin/ticket/controllers/ticket_controllees.dart';
+import 'package:finals_fe/admin/ticket/controllers/ticket_controllers.dart';
 import 'package:finals_fe/admin/ticket/domain/entities/tickets_params.dart';
 import 'package:finals_fe/features/service/controllers/service_controllers.dart';
 import 'package:flutter/material.dart';

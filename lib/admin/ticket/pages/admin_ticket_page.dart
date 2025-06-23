@@ -1,4 +1,7 @@
+import 'package:finals_fe/admin/ticket/controllers/ticket_controllers.dart';
+import 'package:finals_fe/admin/ticket/domain/entities/tickets_params.dart';
 import 'package:finals_fe/admin/ticket/widgets/ticket_card.dart';
+import 'package:finals_fe/helpers/format/text_format_helper.dart';
 import 'package:finals_fe/routers/router_name.dart';
 import 'package:finals_fe/utils/app_color.dart';
 import 'package:flutter/material.dart';
@@ -9,17 +12,32 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AdminTicketPage extends HookConsumerWidget {
-  const AdminTicketPage({super.key});
+  final String type;
+  const AdminTicketPage({super.key, required this.type});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedStatus = useState<String>('Semua');
+    final searchController = useTextEditingController();
+    final keyword = useState<String?>(null);
+
+    final ticketsParams = useMemoized(
+      () => TicketsParams(
+        status: statusMap[selectedStatus.value],
+        keyword: keyword.value,
+      ),
+      [selectedStatus.value, keyword.value],
+    );
+
+    final ticketsAsync = ref.watch(getTicketsProvider(ticketsParams));
+
+    void onSearchSubmitted(String value) {
+      keyword.value = value.trim().isNotEmpty ? value.trim() : null;
+    }
+
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: 40,
-        ),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -32,8 +50,10 @@ class AdminTicketPage extends HookConsumerWidget {
               ),
             ),
             const Gap(20),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: searchController,
+              onSubmitted: onSearchSubmitted,
+              decoration: const InputDecoration(
                 hintText: "Cari Tiket",
                 hintStyle: TextStyle(color: AppColor.lightGrey),
                 prefixIcon: Icon(Icons.search, color: AppColor.lightGrey),
@@ -104,16 +124,42 @@ class AdminTicketPage extends HookConsumerWidget {
             ),
             const Gap(12),
             Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return TicketCard(
-                    onTap: () {
-                      context.pushNamed(RouteName.adminTicketDetail);
+              child: ticketsAsync.when(
+                data: (tickets) {
+                  if (tickets.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'Tidak ada tiket',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    itemCount: tickets.length,
+                    itemBuilder: (context, index) {
+                      final ticket = tickets[index];
+                      return TicketCard(
+                        ticket: ticket,
+                        onTap: () {
+                          context.pushNamed(
+                            RouteName.adminTicketDetail,
+                            extra: {
+                              'ticketId': ticket.id,
+                              'type': type,
+                            },
+                          );
+                        },
+                      );
                     },
                   );
                 },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, _) => Center(
+                  child: Text(
+                    err.toString(),
+                    style: const TextStyle(color: Colors.redAccent),
+                  ),
+                ),
               ),
             ),
           ],

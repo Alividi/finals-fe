@@ -8,6 +8,7 @@ class SummaryTileWidget extends StatelessWidget {
   final String? title;
   final int? value;
   final Color? color;
+  final Widget? valueWidget;
 
   const SummaryTileWidget({
     super.key,
@@ -15,6 +16,7 @@ class SummaryTileWidget extends StatelessWidget {
     this.title,
     this.value,
     this.color,
+    this.valueWidget,
   });
 
   @override
@@ -41,14 +43,15 @@ class SummaryTileWidget extends StatelessWidget {
                 ),
               ),
               const Gap(8),
-              Text(
-                value?.toString() ?? '0',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
+              valueWidget ??
+                  Text(
+                    value?.toString() ?? '0',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
             ],
           ),
         ),
