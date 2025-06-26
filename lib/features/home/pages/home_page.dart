@@ -5,6 +5,7 @@ import 'package:finals_fe/features/home/widgets/home_products.dart';
 import 'package:finals_fe/features/home/widgets/home_widget.dart';
 import 'package:finals_fe/features/home/widgets/see_all_menu_widget.dart';
 import 'package:finals_fe/features/main/controllers/selected_index_provider.dart';
+import 'package:finals_fe/features/product/controllers/product_controllers.dart';
 import 'package:finals_fe/features/service/controllers/service_controllers.dart';
 import 'package:finals_fe/features/service/domain/entities/services_model.dart';
 import 'package:finals_fe/features/service/domain/entities/services_params.dart';
@@ -37,6 +38,7 @@ class HomePage extends HookConsumerWidget {
 
     final tabController = useTabController(initialLength: 3);
     final userStatusAsync = ref.watch(userStatusControllerProvider);
+    final productsAsync = ref.watch(getProductsProvider);
     final params = useMemoized(() => ServicesParams());
     final servicesFuture = useMemoized(() => ref.read(getServicesProvider(params).future));
     final servicesSnapshot = useFuture(servicesFuture);
@@ -58,19 +60,19 @@ class HomePage extends HookConsumerWidget {
                         badgeCount: userStatusAsync.value?.notificationCount ?? 0,
                       ),
             const Gap(20),
-            SeeAllMenu(
-              title: 'Promosi',
-              icon: Assets.icons.discount.path,
-              onTap: () {},
-            ),
-            const Gap(20),
-            Container(
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-              ),
-            ),
+            // SeeAllMenu(
+            //   title: 'Promosi',
+            //   icon: Assets.icons.discount.path,
+            //   onTap: () {},
+            // ),
+            // const Gap(20),
+            // Container(
+            //   height: 150,
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(8),
+            //     color: Colors.white,
+            //   ),
+            // ),
             const Gap(24),
             SeeAllMenu(
               title: 'Layanan Saya',
@@ -81,6 +83,9 @@ class HomePage extends HookConsumerWidget {
             ),
             const Gap(32),
             HomeWidget(
+              onTap: () {
+                ref.read(selectedIndexNavBar.notifier).update((state) => 2);
+              },
               tabController: tabController,
               allService: _filterService(servicesSnapshot.data ?? [], null),
               offlineService: _filterService(servicesSnapshot.data ?? [], 2),
@@ -103,17 +108,35 @@ class HomePage extends HookConsumerWidget {
               child: CustomScrollView(
                 scrollDirection: Axis.horizontal,
                 slivers: [
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) => Padding(
-                          padding: const EdgeInsets.only(right: 16),
-                          child: HomeProducts(onTap: () {})),
-                      childCount: 3,
-                    ),
-                  )
+                  if (productsAsync.isLoading)
+                    SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()))
+                  else if (productsAsync.hasError)
+                    SliverToBoxAdapter(child: Text('Error: ${productsAsync.error}'))
+                  else
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final product = productsAsync.value![index];
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: HomeProducts(
+                              onTap: () {
+                                context.pushNamed(
+                                  RouteName.productDetail,
+                                  extra: {'productId': product.id},
+                                );
+                              },
+                              product: product,
+                            ),
+                          );
+                        },
+                        childCount: productsAsync.value!.length,
+                      ),
+                    )
                 ],
               ),
             ),
+
             const Gap(24),
           ],
         ),

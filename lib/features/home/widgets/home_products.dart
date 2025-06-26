@@ -1,12 +1,16 @@
+import 'package:finals_fe/features/product/domain/entities/products_model.dart';
+import 'package:finals_fe/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeProducts extends StatelessWidget {
   final VoidCallback onTap;
+  final ProductsModel product;
   const HomeProducts({
     super.key,
     required this.onTap,
+    required this.product,
   });
 
   @override
@@ -32,11 +36,16 @@ class HomeProducts extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(0),
                 child: Image.network(
-                  'https://picsum.photos/250',
+                  product.image ?? '',
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: 180,
                   scale: 1,
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.broken_image,
+                    size: 50,
+                    color: AppColor.red,
+                  ),
                 ),
               ),
             ),
@@ -44,7 +53,7 @@ class HomeProducts extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
               child: Text(
-                'Product Name',
+                product.nama ?? 'Nama Produk',
                 style: GoogleFonts.montserrat(
                   color: Colors.white,
                   fontSize: 18,
@@ -69,7 +78,7 @@ class HomeProducts extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
               child: Text(
-                'This is a product description.',
+                product.deskripsi ?? 'Deskripsi produk tidak tersedia',
                 style: GoogleFonts.montserrat(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,

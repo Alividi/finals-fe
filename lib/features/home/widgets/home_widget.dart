@@ -14,6 +14,7 @@ class HomeWidget extends StatelessWidget {
     this.isLoading = false,
     this.hasError = false,
     this.error,
+    this.onTap,
   });
 
   final TabController tabController;
@@ -23,6 +24,7 @@ class HomeWidget extends StatelessWidget {
   final bool isLoading;
   final bool hasError;
   final String? error;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,7 @@ class HomeWidget extends StatelessWidget {
           ),
           Center(
             child: TextButton(
-              onPressed: () {},
+              onPressed: onTap,
               child: Text(
                 'Lihat Semua',
                 style: TextStyle(

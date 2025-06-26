@@ -44,23 +44,23 @@ class SettingPage extends ConsumerWidget {
               ),
             ),
             const Gap(24),
-            SettingTile(
-              title: 'Profile',
-              icon: Assets.icons.editSolid.path,
-              onTap: () {},
-            ),
-            SettingTile(
-              title: 'Ubah Password',
-              icon: Assets.icons.changePassword.path,
-              onTap: () {
-                context.pushNamed(RouteName.changePassword);
-              },
-            ),
-            SettingTile(
-              title: 'Helpdesk',
-              icon: Assets.icons.helpdesk.path,
-              onTap: () {},
-            ),
+            // SettingTile(
+            //   title: 'Profile',
+            //   icon: Assets.icons.editSolid.path,
+            //   onTap: () {},
+            // ),
+            // SettingTile(
+            //   title: 'Ubah Password',
+            //   icon: Assets.icons.changePassword.path,
+            //   onTap: () {
+            //     context.pushNamed(RouteName.changePassword);
+            //   },
+            // ),
+            // SettingTile(
+            //   title: 'Helpdesk',
+            //   icon: Assets.icons.helpdesk.path,
+            //   onTap: () {},
+            // ),
             SettingTile(
               isLogout: true,
               title: 'Keluar',

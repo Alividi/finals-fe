@@ -112,7 +112,13 @@ Raw<GoRouter> router(Ref ref) {
       GoRoute(
         path: '/product-detail',
         name: RouteName.productDetail,
-        builder: (context, state) => const ProductDetailPage(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final productId = extra['productId'] as int;
+          return ProductDetailPage(
+            productId: productId,
+          );
+        },
       ),
       GoRoute(
         path: '/order-detail',
